@@ -14,16 +14,312 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      campaign_members: {
+        Row: {
+          campaign_id: string
+          id: string
+          is_dm: boolean
+          joined_at: string
+          user_id: string
+        }
+        Insert: {
+          campaign_id: string
+          id?: string
+          is_dm?: boolean
+          joined_at?: string
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string
+          id?: string
+          is_dm?: boolean
+          joined_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_members_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          created_at: string
+          current_scene: string | null
+          description: string | null
+          game_state: Json | null
+          id: string
+          invite_code: string
+          is_active: boolean
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_scene?: string | null
+          description?: string | null
+          game_state?: Json | null
+          id?: string
+          invite_code?: string
+          is_active?: boolean
+          name: string
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_scene?: string | null
+          description?: string | null
+          game_state?: Json | null
+          id?: string
+          invite_code?: string
+          is_active?: boolean
+          name?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      characters: {
+        Row: {
+          abilities: Json | null
+          ac: number
+          avatar_url: string | null
+          campaign_id: string
+          class: string
+          created_at: string
+          hp: number
+          id: string
+          inventory: Json | null
+          is_active: boolean
+          level: number
+          max_hp: number
+          name: string
+          position: Json | null
+          stats: Json | null
+          status_effects: string[] | null
+          updated_at: string
+          user_id: string
+          xp: number
+          xp_to_next: number
+        }
+        Insert: {
+          abilities?: Json | null
+          ac?: number
+          avatar_url?: string | null
+          campaign_id: string
+          class: string
+          created_at?: string
+          hp?: number
+          id?: string
+          inventory?: Json | null
+          is_active?: boolean
+          level?: number
+          max_hp?: number
+          name: string
+          position?: Json | null
+          stats?: Json | null
+          status_effects?: string[] | null
+          updated_at?: string
+          user_id: string
+          xp?: number
+          xp_to_next?: number
+        }
+        Update: {
+          abilities?: Json | null
+          ac?: number
+          avatar_url?: string | null
+          campaign_id?: string
+          class?: string
+          created_at?: string
+          hp?: number
+          id?: string
+          inventory?: Json | null
+          is_active?: boolean
+          level?: number
+          max_hp?: number
+          name?: string
+          position?: Json | null
+          stats?: Json | null
+          status_effects?: string[] | null
+          updated_at?: string
+          user_id?: string
+          xp?: number
+          xp_to_next?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "characters_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_messages: {
+        Row: {
+          campaign_id: string
+          content: string
+          created_at: string
+          id: string
+          message_type: string
+          roll_data: Json | null
+          user_id: string | null
+        }
+        Insert: {
+          campaign_id: string
+          content: string
+          created_at?: string
+          id?: string
+          message_type?: string
+          roll_data?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          campaign_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          message_type?: string
+          roll_data?: Json | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      combat_state: {
+        Row: {
+          campaign_id: string
+          current_turn_index: number
+          enemies: Json | null
+          id: string
+          initiative_order: string[] | null
+          is_active: boolean
+          round_number: number
+          updated_at: string
+        }
+        Insert: {
+          campaign_id: string
+          current_turn_index?: number
+          enemies?: Json | null
+          id?: string
+          initiative_order?: string[] | null
+          is_active?: boolean
+          round_number?: number
+          updated_at?: string
+        }
+        Update: {
+          campaign_id?: string
+          current_turn_index?: number
+          enemies?: Json | null
+          id?: string
+          initiative_order?: string[] | null
+          is_active?: boolean
+          round_number?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "combat_state_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: true
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_campaign_by_invite_code: {
+        Args: { _invite_code: string }
+        Returns: {
+          id: string
+          name: string
+          owner_id: string
+        }[]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_campaign_member: {
+        Args: { _campaign_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_campaign_owner: {
+        Args: { _campaign_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +446,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
