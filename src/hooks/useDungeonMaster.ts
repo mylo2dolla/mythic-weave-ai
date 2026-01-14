@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 type MessageRole = "user" | "assistant";
 
@@ -115,11 +116,17 @@ export function useDungeonMaster() {
     let assistantContent = "";
 
     try {
+      // Get the current session token for authenticated requests
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        throw new Error("You must be logged in to speak with the Dungeon Master");
+      }
+
       const response = await fetch(DM_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
           messages: [...messages, userMessage].map(m => ({
