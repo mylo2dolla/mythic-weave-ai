@@ -111,12 +111,16 @@ const Game = () => {
     if (!campaignId) return;
     
     const fetchCampaign = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("campaigns")
         .select("name, current_scene")
         .eq("id", campaignId)
-        .single();
+        .maybeSingle();
       
+      if (error) {
+        console.error("Error fetching campaign:", error);
+        return;
+      }
       if (data) setCampaign(data);
     };
     
